@@ -1,20 +1,28 @@
-
-const express = require('express');
+const express = require("express");
 
 const tasksRouter = express.Router();
 
+//Controllers
+const {
+  createTask,
+  getTask,
+  getAllTasks,
+  updateTask,
+  deleteTask,
+} = require("../controllers/tasks.controller");
+
 // Middlewares
-/*
-const { commentExists } = require('../middlewares/comments.middlewares');
-*/
-const {createTaskValidator}=require('../middlewares/validators.middleware')
+const { taskExist } = require("../middlewares/tasks.middleware");
+const { createTaskValidator } = require("../middlewares/validators.middleware");
 
-tasksRouter.get('/',()=>{});
+tasksRouter.get("/", getAllTasks);
 
-tasksRouter.post('/',createTaskValidator,()=>{});
+tasksRouter.post("/", createTaskValidator, createTask);
 
-tasksRouter.patch('/:id', ()=>{});
+tasksRouter.get("/:status", getTask);
 
-tasksRouter.delete('/:id', ()=>{});
+tasksRouter.patch("/:id", taskExist, updateTask);
+
+tasksRouter.delete("/:id", taskExist, deleteTask);
 
 module.exports = { tasksRouter };
